@@ -40,7 +40,7 @@ void cscan(int arr[], int n, int head, char dir) {
 	//run left loop first and then
 	//right in reverse index
 	
-	//left loop
+	//right loop
 	for(int i=0; i<r_cnt; i++) {
 		curr_track = right[i];
 		seek_seq[s_cnt++] = curr_track;
@@ -49,7 +49,7 @@ void cscan(int arr[], int n, int head, char dir) {
 		head = curr_track;
 	}
 	
-	//right loop
+	//lrft loop
 	for(int i=0; i<l_cnt; i++) {
 		curr_track = left[i];
 		seek_seq[s_cnt++] = curr_track;
