@@ -36,7 +36,7 @@ void cscan(int arr[], int n, int head, char dir) {
 	bsort(right, r_cnt);
 	
 	
-	//for right direction:
+	//for left direction:
 	//run left loop first and then
 	//right in reverse index
 	
@@ -49,7 +49,7 @@ void cscan(int arr[], int n, int head, char dir) {
 		head = curr_track;
 	}
 	
-	//lrft loop
+	//left loop
 	for(int i=0; i<l_cnt; i++) {
 		curr_track = left[i];
 		seek_seq[s_cnt++] = curr_track;
