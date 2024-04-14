@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
 	
 	if(rank == 0) {
 		printf("Total even sum is: %d\n", global_even_sum);
-		printf("Total odd sum is: %d\n", (float)global_odd_sum);
+		printf("Total odd sum is: %d\n", global_odd_sum);
 	}
 	
 	MPI_Finalize();
