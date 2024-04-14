@@ -1,20 +1,22 @@
 //S8Q2, S12Q2, S14Q2
 #include <stdio.h>
 #include <math.h>
+#include <limits.h>
 
-void claculate_diff(int arr[], int n, int head, int diff[][2]) {
-	for(int i=0; i<=n; i++)
+#define N 8
+#define DISK_SIZE 200
+
+void calculateDiff(int arr[], int head, int diff[][2]) {
+	for(int i=0; i<N; i++) {
 		diff[i][0] = fabs(head - arr[i]);
+	}
 }
 
-//find unaccessed track which is at
-//minimum distance from head
-int find_min(int diff[][2], int n) {
+int findMin(int diff[][2]) {
 	int idx = -1;
-	int min = 1e7;
-	
-	for(int i=0; i<n; i++) {
-		if(!diff[i][1] && min > diff[i][0]) {
+	int min = INT_MAX;
+	for(int i=0; i<N; i++) {
+		if(!diff[i][1] && diff[i][0] < min) {
 			min = diff[i][0];
 			idx = i;
 		}
@@ -23,55 +25,43 @@ int find_min(int diff[][2], int n) {
 	return idx;
 }
 
-void sstf(int arr[], int n, int head) {
-	if(n == 0)
-		return;
-		
-	int diff[n][2];
+void sstf(int arr[], int head) {
+	int seekCnt = 0, seekSeq[N];
 	
-    // Initialize diff array elements
-    for (int i = 0; i < n; i++) {
-        diff[i][0] = 0;
-        diff[i][1] = 0;
-    }
-	int seek_cnt = 0;
-	int seek_seq[n+1];
-	for(int i=0; i<=n; i++)
-		seek_seq[i] = 0;
-	
-	for(int i=0; i<n; i++) {
-		seek_seq[i] = head;
-		claculate_diff(arr, n, head, diff);
-		int idx = find_min(diff, n);
-		diff[idx][1] = 1;
-		// increase the total count
-		seek_cnt += diff[idx][0];
-		// update new head
-		head = arr[idx];
+	int diff[N][2];
+	for(int i=0; i<N; i++) {
+		diff[i][1] = 0;
 	}
 	
-	seek_seq[n] = head;
-	printf("Total no. of seek oprations: %d\n", seek_cnt);
+	for(int i=0; i<N; i++) {
+		calculateDiff(arr, head, diff);
+		int idx = findMin(diff);
+		diff[idx][1] = 1;
+		seekCnt += diff[idx][0];
+		head = arr[idx];
+		seekSeq[i] = head;
+	}
 	
-	printf("Seek Sequence is:\n");
-	for(int i=0; i<=n; i++)
-		printf("%d\n", seek_seq[i]);
+	printf("Total no. seek oprations: %d\n", seekCnt);
+	
+	printf("Seek sequence:\n");
+	for(int i=0; i<N; i++) {
+		printf("%d\n", seekSeq[i]);
+	}
 }
 
 int main() {
-	int arr[100], n, head;
+	int arr[N], head;
 	
-	printf("Enter request array size: ");
-	scanf("%d", &n);
-	
-	printf("Enter request array:\n");
-	for(int i=0; i<n; i++)
+	printf("Enter request arr:\n");
+	for(int i=0; i<N; i++) {
 		scanf("%d", &arr[i]);
-		
-	printf("Enter initial head position: ");
+	}
+	
+	printf("Enter head position: ");
 	scanf("%d", &head);
 	
-	sstf(arr, n, head);
+	sstf(arr, head);
 	
 	return 0;
 }
